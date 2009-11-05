@@ -112,8 +112,18 @@ class DiagramGraph
            #options += 'taillabel="1"'
            options += 'arrowtail=odot, arrowhead=dot, dir=both'
       when 'one-many'
+      # TODO: clean this up. It comes from has_many, which is really
+      # only one-directional. It does not necessarily imply belongs_to
+      # in the other direction. (Speaking for Rails now, not the DB.)
 	   #options += 'taillabel="n"'
-           options += 'arrowtail=crow, arrowhead=dot, dir=both'                    
+           options += 'arrowtail=crow, arrowhead=none, dir=both'                    
+      when 'many-one'
+      # TODO: clean this up. Right now, reciprocal belongs_to/has_many
+      # relationships draw two connections. Basically when we're about
+      # to connect A belongs_to B we should look for B has_many A with
+      # the same name. If so, promote the crow/none; none/dot
+      # arrowheads to crow/arrowhead.
+           options += 'arrowhead=none, arrowhead=dot, dir=both'
       when 'many-many'
            #options += 'taillabel="n", headlabel="n", arrowtail="normal"'
            options += 'arrowtail=crow, arrowhead=crow, dir=both'

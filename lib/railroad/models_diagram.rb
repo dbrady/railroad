@@ -169,9 +169,6 @@ class ModelsDiagram < AppDiagram
     begin
     STDERR.print "\t\tProcessing model association #{assoc.name.to_s} ..." if @options.verbose
 
-    # Skip "belongs_to" associations
-    return if assoc.macro.to_s == 'belongs_to'
-
     # Only non standard association names needs a label
 
     # from patch #12384
@@ -187,6 +184,8 @@ class ModelsDiagram < AppDiagram
       assoc_type = 'one-one'
     elsif assoc.macro.to_s == 'has_many' && (! assoc.options[:through])
       assoc_type = 'one-many'
+    elsif assoc.macro.to_s == 'belongs_to'
+      assoc_type = 'many-one'
     else # habtm or has_many, :through
       return if @habtm.include? [assoc.class_name, class_name, assoc_name]
       assoc_type = 'many-many'

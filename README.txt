@@ -3,6 +3,15 @@
 RailRoad generates models and controllers diagrams in DOT language for a
 Rails application.
 
+= What's Different in dbrady/railroad
+
+RailRoad currently ignores belongs_to relationships. It assumes that
+the opposite, has_many, relationship always exists. Several
+applications designed from a SOA perspective, however, do not support
+bidirectional associations. (You can get a user's country, but it's
+not useful in the application to ask for all the users of a country.)
+
+See bottom of file for Change log and TODO.
 
 = Usage
 
@@ -140,4 +149,20 @@ Factory Design Labs http://github.com/factorylabs
 Mike Mondragon      http://github.com/monde
 Tero Tilus          http://github.com/terotil
 Bruno Michel        http://github.com/nono
+
+= Change Log
+
+2009-11-05: Version 0.7.7.
+
+2009-11-05: Added support for belongs_to. Currently duplicates lines
+if a bidirectional association exists.
+
+= TODO
+
+* Currently it's duplicating the drawing lines if the reverse has_many
+  or has_one association exists. Need to uniquify the associations by
+  class and name, to prevent collapsing genuinely duplicated
+  associations. E.g.: User belongs_to Country, Country has_many User
+  should not be duplicated, but Node belongs_to :parent, Node has_many
+  :children SHOULD be duplicated.
 
